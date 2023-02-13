@@ -11,11 +11,7 @@ from django.urls import reverse
 from chattin.users.forms import UserAdminChangeForm
 from chattin.users.models import User
 from chattin.users.tests.factories import UserFactory
-from chattin.users.views import (
-    UserRedirectView,
-    UserUpdateView,
-    user_detail_view,
-)
+from chattin.users.views import UserRedirectView, UserUpdateView, user_detail_view
 
 pytestmark = pytest.mark.django_db
 
