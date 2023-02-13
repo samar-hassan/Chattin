@@ -55,3 +55,8 @@ INSTALLED_APPS += ["django_extensions"]  # noqa F405
 WEBPACK_LOADER["DEFAULT"]["CACHE"] = not DEBUG  # noqa F405
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+try:
+    from .local_settings import *  # noqa: F40, F401
+except ImportError:
+    pass

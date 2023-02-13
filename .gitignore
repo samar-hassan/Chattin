@@ -151,12 +151,7 @@ typings/
 
 
 ### VisualStudioCode template
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.code-workspace
+.vscode
 
 # Local History for Visual Studio Code
 .history/
@@ -277,3 +272,6 @@ chattin/media/
 .pytest_cache/
 chattin/static/webpack_bundles/
 webpack-stats.json
+
+# settings
+local_settings.py
