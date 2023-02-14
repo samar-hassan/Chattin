@@ -173,3 +173,9 @@ LOGGING = {
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+
+try:
+    from .local_settings import *  # noqa: F40, F401
+except ImportError:
+    pass
