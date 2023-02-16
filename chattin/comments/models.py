@@ -26,6 +26,9 @@ class Comment(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
     date_updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        app_label = 'comments'
+
 
 class CommentLike(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -33,6 +36,7 @@ class CommentLike(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        app_label = 'comments'
         unique_together = ("user", "comment")
 
 
@@ -42,4 +46,5 @@ class CommentDisLike(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        app_label = 'comments'
         unique_together = ("user", "comment")
