@@ -1,1 +1,35 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-around">
+        <div class="card">
+            <img src={% static "images/image1.png" %} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Alex Williams</h5>
+                <p class="card-text">ChatGPT has been trained on a vast corpus of text data, which allows it to have knowledge about various topics.</p>
+                <a href="{% url 'comments:article' id=1 %}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src={% static "images/image2.png" %} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Mike Jason</h5>
+                <p class="card-text">ChatGPT does not have the ability to empathize with customers, understand their emotions or respond appropriately to sensitive or emotional situations.</p>
+                <a href="{% url 'comments:article' id=2 %}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src={% static "images/image3.png" %} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Laura Williams</h5>
+                <p class="card-text">Consistency: ChatGPT can provide consistent responses to the same questions or situations ...</p>
+                <a href="{% url 'comments:article' id=3 %}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

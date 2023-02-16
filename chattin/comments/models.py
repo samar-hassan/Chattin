@@ -27,7 +27,7 @@ class Comment(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        app_label = 'comments'
+        app_label = "comments"
 
 
 class CommentLike(models.Model):
@@ -36,7 +36,6 @@ class CommentLike(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        app_label = 'comments'
         unique_together = ("user", "comment")
 
 
@@ -46,5 +45,4 @@ class CommentDisLike(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        app_label = 'comments'
         unique_together = ("user", "comment")
