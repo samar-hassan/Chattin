@@ -283,5 +283,7 @@ WEBPACK_LOADER = {
         "IGNORE": [r".+\.hot-update.js", r".+\.map"],
     }
 }
-# Your stuff...
+
 # ------------------------------------------------------------------------------
+
+ASGI_APPLICATION = 'config.asgi.application'
