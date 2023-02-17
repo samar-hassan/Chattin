@@ -15,3 +15,54 @@
 .card {
   width: 18rem !important;
 }
+
+.avatar {
+  background-color: #134534 !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  border: 1px solid black !important;
+  padding: 6px 8px !important;
+  border-radius: 23px !important;
+  color: white !important;
+}
+
+.comments {
+  background-color: #f3f8f6;
+  padding: 20px;
+}
+
+.name {
+  color: rgba(0, 0, 194, 0.701);
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
+.text {
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif
+}
+
+.reply {
+  font-style: italic;
+  color: gray;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.thumbs {
+  width: 15px;
+  margin: 0 3px;
+  cursor: pointer;
+}
+
+.level-1 {
+  margin-left: 40px !important;
+}
+
+.level-2 {
+  margin-left: 80px !important;
+}
+
+.level-3 {
+  margin-left: 120px !important;
+}

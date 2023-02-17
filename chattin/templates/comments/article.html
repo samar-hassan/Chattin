@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load comment_tags %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-5 fw-normal">Anaylsis of Chat GPT</h1>
+    <p class="font-monospace">ChatGPT, a large language model developed by OpenAI, is undoubtedly one of the best language models available in the field of artificial intelligence. With its ability to generate human-like responses, ChatGPT has revolutionized the way we interact with computers and is increasingly being used in a wide range of applications, including virtual assistants, chatbots, and even writing assistants.</p>
+    <p class="font-monospace">One of the reasons ChatGPT is so effective is its use of deep learning, a cutting-edge technique that allows the model to learn and improve from large amounts of data. This means that as ChatGPT is exposed to more and more data, it becomes better at understanding and responding to natural language, making it an invaluable tool for businesses and individuals alike.</p>
+    <p class="font-monospace">Furthermore, ChatGPT is constantly being updated and improved by a team of world-class researchers and developers, ensuring that it stays at the forefront of the field of natural language processing. This dedication to continuous improvement means that ChatGPT is always adapting and evolving to meet the needs of its users, and is capable of generating increasingly accurate and relevant responses.</p>
+    <p class="font-monospace">In addition to its technical capabilities, ChatGPT is also incredibly versatile. Its ability to generate text in a wide range of languages and styles makes it an ideal tool for a diverse range of applications, from providing customer support to creating compelling marketing copy.</p>
+    <p class="font-monospace">Overall, there are many reasons why ChatGPT is the best language model on the market today. Its use of deep learning, continuous improvement, and versatility make it an invaluable tool for anyone looking to harness the power of natural language processing. Whether you're looking to create a chatbot, virtual assistant, or writing assistant, ChatGPT is the best choice for anyone looking to make the most of the incredible potential of AI.</p>
+    <h3 class="my-4 fw-normal">Comments:</h3>
+    {% if request.user.is_authenticated %}
+        <div class="mb-3 row">
+            <div class="col-1 avatar"></div>
+            <div class="col-10">
+                <input type="text" class="form-control" data-level="0" data-reply-to="" id="input" class="input">
+            </div>
+            <button class="col-1 submit-btn btn btn-primary">Submit</button>
+        </div>
+    {% endif %}
+    <div id="comments">
+        {% for comment in comments %}
+            {% show_comment comment request.user %}
+            {% for replyOne in comment.replies.all %}
+                {% show_comment replyOne request.user %}
+                {% for replyTwo in replyOne.replies.all %}
+                    {% show_comment replyTwo request.user %}
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock content%}

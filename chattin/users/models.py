@@ -24,3 +24,9 @@ class User(AbstractUser):
 
         """
         return reverse("users:detail", kwargs={"username": self.username})
+
+    @property
+    def avatar_name(self):
+        return ''.join(
+            list(map(lambda x: x[0], self.name.split(' ')))[:2]
+        ).upper()

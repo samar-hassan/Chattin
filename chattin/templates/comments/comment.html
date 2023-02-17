@@ -1,0 +1,22 @@
+<div class="mb-3 comment row level-{{ comment.level }}">
+    <div class="col-1 avatar">{{ comment.user.avatar_name }}</div>
+    <div class="col-10" style="max-width: 90%;">
+        <p class="m-0 p-0 name">{{ comment.user.name }}</p>
+        <p class="m-0 p-0 text">
+            {{ comment.text }}
+        </p>
+        <div class="d-flex">
+            <div>
+                <img class="thumbs" src="/static/images/thumbs-up.svg" alt="">
+                <span class="likes text">{{ comment.likes.count }}</span>
+            </div>
+            <div class="mx-3">
+                <img class="thumbs" src="/static/images/thumbs-down.svg" alt="">
+                <span class="dislikes text">{{ comment.dislikes.count }}</span>
+            </div>
+            {% if user.is_authenticated and comment.level < 2 %}
+                <span class="reply">reply</span>
+            {% endif %}
+        </div>
+    </div>
+</div>

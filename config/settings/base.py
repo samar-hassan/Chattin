@@ -183,6 +183,9 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "chattin.users.context_processors.allauth_settings",
             ],
+            'libraries': {
+                'comment_tags': 'chattin.templatetags.comment_tags',
+            },
         },
     }
 ]
