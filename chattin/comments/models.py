@@ -8,7 +8,10 @@ class Comment(models.Model):
         settings.AUTH_USER_MODEL, related_name="comments", on_delete=models.CASCADE
     )
     replied_to = models.ForeignKey(
-        "self", related_name="replies", on_delete=models.CASCADE, null=True,
+        "self",
+        related_name="replies",
+        on_delete=models.CASCADE,
+        null=True,
     )
     text = models.TextField()
     level = models.PositiveBigIntegerField(default=1)

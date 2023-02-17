@@ -27,6 +27,4 @@ class User(AbstractUser):
 
     @property
     def avatar_name(self):
-        return ''.join(
-            list(map(lambda x: x[0], self.name.split(' ')))[:2]
-        ).upper()
+        return "".join(list(map(lambda x: x[0], self.name.split(" ")))[:2]).upper()
