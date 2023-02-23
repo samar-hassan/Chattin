@@ -12,9 +12,9 @@ $(document).ready(function() {
         user: localStorage.getItem('user'),
         avatarName: 'AA',
 
-        addMessage(avatar, name, text) {
+        addMessage(avatar, name, text, level) {
             this.$comments.prepend(`
-                <div class="mb-3 comment row">
+                <div class="mb-3 comment row level-${level}" data-level="${level}">
                     <div class="col-1 avatar">${avatar}</div>
                     <div class="col-10" style="max-width: 90%;">
                         <p class="m-0 p-0 name">${name}</p>
@@ -41,15 +41,34 @@ $(document).ready(function() {
             return name.split(' ').map(s => s[0]).slice(0,2).join('').toUpperCase()
         },
 
+        addReply (e) {
+            if (e.key != 'Enter') return;
+            const $input = $(e.target);
+            this.sendMessage($input);
+            $(e).remove();
+        },
+
         addCommentSection(e) {
             const $commentDiv = $(e.target).parent().parent().parent();
-            const replySection = `<div class="mb-3 row level-${1}">
-                <div class="col-1 avatar">${this.avatarName}</div>
-                <div class="col-10">
-                    <input type="text" class="form-control" data-level="${1}" data-reply-to="${3}" id="input" class="input">
+            const level = Number($commentDiv.data('level'));
+            const replyTo = $commentDiv.data('comment');
+            const inputId  = `input-${replyTo}-${level}-${Math.ceil(Math.random() * 10000)}`;
+            const replySection = `<div class="replies"><div class="section-level">
+                <div class="mb-3 row level-${level + 1}">
+                    <div class="col-1 avatar">${this.avatarName}</div>
+                    <div class="col-10">
+                        <input type="text" class="form-control" data-level="${level + 1}" data-reply-to="${replyTo}"
+                            id="${inputId}" class="input">
+                    </div>
                 </div>
-            </div>`
-            $(replySection).insertAfter($commentDiv);
+            </div></div>`;
+            const parent = $commentDiv.parent();
+            if (parent.hasClass('main-section')) {
+                parent.append(replySection);
+            } else if (parent.hasClass('section-level')) {
+                parent.append(replySection);
+            }
+            $(`#${inputId}`).on('keyup', e => this.addReply(e));
         },
 
         sendMessage($input) {

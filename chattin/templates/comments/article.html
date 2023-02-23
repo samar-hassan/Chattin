@@ -14,21 +14,33 @@
         <div class="mb-3 row">
             <div class="col-1 avatar">{{ request.user.avatar_name }}</div>
             <div class="col-10">
-                <input type="text" class="form-control" data-level="0" data-reply-to="" id="input-0" class="input">
+                <input type="text" class="form-control" data-level="0" id="input-0" class="input">
             </div>
             <button id="button-0" class="col-1 submit-btn btn btn-primary">Submit</button>
         </div>
     {% endif %}
-    <div id="comments">
-        {% for comment in comments %}
-            {% show_comment comment request.user %}
-            {% for replyOne in comment.replies.all %}
-                {% show_comment replyOne request.user %}
-                {% for replyTwo in replyOne.replies.all %}
-                    {% show_comment replyTwo request.user %}
-                {% endfor %}
+    <div id="comments" class="comments">
+        {% if comments %}
+            {% for comment in comments %}
+                <div class="main-section">
+                    {% show_comment comment request.user %}
+                    {% if comment.replies.count %}
+                        <div class="replies">
+                            {% for replyOne in comment.replies.all %}
+                                <div class="section-level">
+                                    {% show_comment replyOne request.user %}
+                                    <div class="section-level">
+                                        {% for replyTwo in replyOne.replies.all %}
+                                            {% show_comment replyTwo request.user %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
             {% endfor %}
-        {% endfor %}
+        {% endif %}
     </div>
 </div>
 {% endblock content%}

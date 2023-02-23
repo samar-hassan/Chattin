@@ -1,4 +1,4 @@
-<div class="mb-3 comment row level-{{ comment.level }}">
+<div class="mb-3 comment row level-{{ comment.level }}" data-level="{{ comment.level }}" data-comment="{{ comment.id }}">
     <div class="col-1 avatar">{{ comment.user.avatar_name }}</div>
     <div class="col-10" style="max-width: 90%;">
         <p class="m-0 p-0 name">{{ comment.user.name }}</p>
