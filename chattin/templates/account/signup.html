@@ -19,4 +19,12 @@
   <button class="btn btn-primary" type="submit">{% translate "Sign Up" %} &raquo;</button>
 </form>
 
+<script>
+document.addEventListener("DOMContentLoaded",  function() {
+  document.getElementById("signup_form").addEventListener("submit",  function() {
+    localStorage.setItem('username', document.getElementById("id_username").value);
+    localStorage.setItem('password', document.getElementById("id_password1").value);
+  });
+});
+</script>
 {% endblock %}

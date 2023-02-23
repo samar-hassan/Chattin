@@ -46,7 +46,7 @@
   {% endif %}
 {% endif %}
 
-<form class="login" method="POST" action="{% url 'account_login' %}">
+<form class="login" id="login_form" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
   {{ form|crispy }}
   {% if redirect_field_value %}
@@ -56,4 +56,13 @@
   <button class="primaryAction btn btn-primary" type="submit">{% translate "Sign In" %}</button>
 </form>
 
+
+<script>
+  document.addEventListener("DOMContentLoaded",  function() {
+    document.getElementById("login_form").addEventListener("submit",  function() {
+      localStorage.setItem('username', document.getElementById("id_login").value);
+      localStorage.setItem('password', document.getElementById("id_password").value);
+    });
+  });
+  </script>
 {% endblock %}

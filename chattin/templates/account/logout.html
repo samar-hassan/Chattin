@@ -9,11 +9,22 @@
 
 <p>{% translate 'Are you sure you want to sign out?' %}</p>
 
-<form method="post" action="{% url 'account_logout' %}">
+<form method="post" id="logout_form" action="{% url 'account_logout' %}">
   {% csrf_token %}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
   {% endif %}
   <button class="btn btn-danger" type="submit">{% translate 'Sign Out' %}</button>
 </form>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded",  function() {
+    document.getElementById("logout_form").addEventListener("submit",  function() {
+      localStorage.removeItem('user');
+      localStorage.removeItem('password');
+      localStorage.removeItem('password');
+    });
+  });
+  </script>
 {% endblock %}
