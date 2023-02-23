@@ -32,3 +32,15 @@
     </div>
 </div>
 {% endblock content%}
+
+{% block inline_javascript %}
+    {{ block.super }}
+    <script>
+        const is_authenticated = "{{request.user.is_authenticated}}"
+        let name = null;
+        if (is_authenticated) {
+            name = "{{request.user.name}}"
+        }
+        localStorage.setItem('user', name)
+    </script>
+{% endblock inline_javascript %}
