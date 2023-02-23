@@ -5,7 +5,8 @@ import $ from 'jquery';
 
 $(document).ready(function() {
     const article = (() => ({
-        $inputs: $('#input'),
+        $input: $('#input-0'),
+        $button: $('#button-0'),
         $comments: $('#comments'),
         $reply: $('.reply'),
         user: localStorage.getItem('user'),
@@ -51,7 +52,21 @@ $(document).ready(function() {
             $(replySection).insertAfter($commentDiv);
         },
 
+        sendMessage($input) {
+            const value = $input.val();
+            if (!value) return;
+            this.addMessage(this.avatarName, this.user, value);
+            $input.val('');
+        },
+
         addEvents() {
+            this.$input.on("keyup", e => {
+                if (e.key != 'Enter') return;
+                this.sendMessage(this.$input);
+            });
+            this.$button.on("click", e => {
+                this.sendMessage(this.$input);
+            });
             this.$reply.on("click", e => this.addCommentSection(e))
         },
 
