@@ -27,4 +27,10 @@ class User(AbstractUser):
 
     @property
     def avatar_name(self):
-        return "".join(list(map(lambda x: x[0], self.name.split(" ")))[:2]).upper()
+        if not self.name:
+            avatar = (self.email[0] + self.email[1]).upper()
+        else:
+            avatar = "".join(list(map(lambda x: x[0], self.name.split(" ")))[:2]).upper()
+        if len(avatar) == 1:
+            return avatar + '_'
+        return avatar
