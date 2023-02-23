@@ -183,8 +183,8 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "chattin.users.context_processors.allauth_settings",
             ],
-            'libraries': {
-                'comment_tags': 'chattin.templatetags.comment_tags',
+            "libraries": {
+                "comment_tags": "chattin.templatetags.comment_tags",
             },
         },
     }
@@ -288,5 +288,3 @@ WEBPACK_LOADER = {
 }
 
 # ------------------------------------------------------------------------------
-
-ASGI_APPLICATION = 'config.asgi.application'
