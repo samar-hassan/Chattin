@@ -1,7 +1,16 @@
 <div class="mb-3 comment row level-{{ comment.level }}" data-level="{{ comment.level }}" data-comment="{{ comment.id }}">
     <div class="col-1 avatar">{{ comment.user.avatar_name }}</div>
-    <div class="col-10" style="max-width: 90%;">
-        <p class="m-0 p-0 name">{{ comment.user.name }}</p>
+    <div class="col-10 title-row">
+        <div class="d-flex justify-content-between">
+            <p class="m-0 p-0 name">{{ comment.user.name }}</p>
+            <div class="dropdown" >
+                <img class="ellipse" src="/static/images/ellipsis.svg" alt="" id="dropdownMenuButton2" data-bs-toggle="dropdown" >
+                <ul class="dropdown-menu dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <li class="dropdown-item">Edit</li>
+                  <li class="dropdown-item">Delete</li>
+                </ul>
+            </div>
+        </div>
         <p class="m-0 p-0 text">
             {{ comment.text }}
         </p>

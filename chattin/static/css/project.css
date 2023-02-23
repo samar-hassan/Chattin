@@ -50,14 +50,32 @@
   cursor: pointer;
 }
 
+.ellipse {
+  width: 4px;
+  margin: 0 3px;
+  cursor: pointer;
+}
+
 .level-1 {
-  margin-left: 40px !important;
+  padding-left: 40px !important;
 }
 
 .level-2 {
-  margin-left: 80px !important;
+  padding-left: 80px !important;
 }
 
-.level-3 {
-  margin-left: 120px !important;
+.level-0 .title-row {
+  max-width: 900px;
+}
+
+.level-1 .title-row {
+  max-width: 860px;
+}
+
+.level-2 .title-row {
+  max-width: 820px;
+}
+
+.dropdown-item {
+  cursor: pointer;
 }
