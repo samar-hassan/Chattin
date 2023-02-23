@@ -69,23 +69,25 @@ $(document).ready(function() {
 
         addCommentSection(e) {
             const $commentDiv = $(e.target).parent().parent().parent();
+            const $parent = $commentDiv.parent();
             const level = Number($commentDiv.data('level'));
+            if ($commentDiv.parent().find('input').length && level != 0) return;
+            if ($commentDiv.parent().find('input[data-level=1]').length && level == 0) return;
             const replyTo = $commentDiv.data('comment');
             const inputId  = `input-${replyTo}-${level}-${Math.ceil(Math.random() * 10000)}`;
             const replySection = `<div class="replies"><div class="section-level">
                 <div class="mb-3 row level-${level + 1} w-75">
                     <div class="col-1 avatar">${this.avatarName}</div>
                     <div class="col-10">
-                        <input type="text" class="form-control" data-level="${level + 1}" data-reply-to="${replyTo}"
-                            id="${inputId}" class="input">
+                        <input type="text" class="form-control" data-level="${level + 1}"
+                            data-reply-to="${replyTo}" id="${inputId}" class="input">
                     </div>
                 </div>
             </div></div>`;
-            const parent = $commentDiv.parent();
-            if (parent.hasClass('main-section')) {
-                parent.append(replySection);
-            } else if (parent.hasClass('section-level')) {
-                parent.append(replySection);
+            if ($parent.hasClass('main-section')) {
+                $parent.append(replySection);
+            } else if ($parent.hasClass('section-level')) {
+                $parent.append(replySection);
             }
             $(`#${inputId}`).on('keyup', e => this.addReply(e));
         },
