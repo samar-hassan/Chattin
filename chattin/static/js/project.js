@@ -9,6 +9,8 @@ $(document).ready(function() {
         $button: $('#button-0'),
         $edit: $('.edit'),
         $delete: $('.delete'),
+        $like: $('.like'),
+        $dislike: $('.dislike'),
         $comments: $('#comments'),
         $reply: $('.reply'),
         user: localStorage.getItem('user'),
@@ -23,8 +25,8 @@ $(document).ready(function() {
                         <div class="dropdown">
                             <img class="ellipse" src="/static/images/ellipsis.svg" id="dropdownMenuButton2" data-bs-toggle="dropdown">
                             <ul class="dropdown-menu dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                            <li class="dropdown-item">Edit</li>
-                            <li class="dropdown-item">Delete</li>
+                            <li class="dropdown-item edit">Edit</li>
+                            <li class="dropdown-item delete">Delete</li>
                             </ul>
                         </div>
                     </div>
@@ -33,11 +35,11 @@ $(document).ready(function() {
                     </p>
                     <div class="d-flex">
                         <div>
-                            <img class="thumbs" src="/static/images/thumbs-up.svg">
+                            <img class="thumbs like" src="/static/images/thumbs-up.svg">
                             <span class="likes text">${likes}</span>
                         </div>
                         <div class="mx-3">
-                            <img class="thumbs" src="/static/images/thumbs-down.svg">
+                            <img class="thumbs dislike" src="/static/images/thumbs-down.svg">
                             <span class="dislikes text">${dislikes}</span>
                         </div>
                         ${level <=1? '<span class="reply">reply</span>': ''}
@@ -48,6 +50,22 @@ $(document).ready(function() {
 
         getAvatar(name) {
             return name.split(' ').map(s => s[0]).slice(0,2).join('').toUpperCase()
+        },
+
+        updateEvents () {
+            this.$edit.off("click");
+            this.$delete.off("click");
+            this.$edit = $('.edit');
+            this.$delete = $('.delete');
+            this.$edit.on("click", e => this.editComment(e));
+            this.$delete.on("click", e => this.deleteComment(e));
+
+            this.$like.off("click");
+            this.$dislike.off("click");
+            this.$like = $('.like');
+            this.$dislike = $('.dislike');
+            this.$like.on("click", e => this.likeComment(e));
+            this.$dislike.on("click", e => this.dislikeComment(e));
         },
 
         addReply (e) {
@@ -65,6 +83,7 @@ $(document).ready(function() {
             } else {
                 section.replaceWith(this.getComment(value, level));
             }
+            this.updateEvents();
         },
 
         addCommentSection(e) {
@@ -127,6 +146,32 @@ $(document).ready(function() {
             }
         },
 
+        likeComment (e) {
+            const $impressions = $(e.target).parent().find('.likes');
+            const $section = $impressions.parent().parent();
+            if ($section.hasClass('disliked')) return;
+            if ($section.hasClass('liked')) {
+                $impressions.text(Number($impressions.text()) - 1);
+                $section.removeClass('liked');
+            } else {
+                $impressions.text(Number($impressions.text()) + 1);
+                $section.addClass('liked');
+            };
+        },
+
+        dislikeComment (e) {
+            const $impressions = $(e.target).parent().find('.dislikes');
+            const $section = $impressions.parent().parent();
+            if ($section.hasClass('liked')) return;
+            if ($section.hasClass('disliked')) {
+                $impressions.text(Number($impressions.text()) - 1);
+                $section.removeClass('disliked');
+            } else {
+                $impressions.text(Number($impressions.text()) + 1);
+                $section.addClass('disliked');
+            };
+        },
+
         addEvents() {
             this.$input.on("keyup", e => {
                 if (e.key != 'Enter') return;
@@ -138,6 +183,8 @@ $(document).ready(function() {
             this.$reply.on("click", e => this.addCommentSection(e));
             this.$edit.on("click", e => this.editComment(e));
             this.$delete.on("click", e => this.deleteComment(e));
+            this.$like.on("click", e => this.likeComment(e));
+            this.$dislike.on("click", e => this.dislikeComment(e));
         },
 
         setup() {

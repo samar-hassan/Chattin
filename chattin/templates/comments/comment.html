@@ -20,11 +20,11 @@
         </p>
         <div class="d-flex">
             <div>
-                <img class="thumbs" src="/static/images/thumbs-up.svg">
+                <img class="thumbs like" src="/static/images/thumbs-up.svg">
                 <span class="likes text">{{ comment.like_count }}</span>
             </div>
             <div class="mx-3">
-                <img class="thumbs" src="/static/images/thumbs-down.svg">
+                <img class="thumbs dislike" src="/static/images/thumbs-down.svg">
                 <span class="dislikes text">{{ comment.dislike_count }}</span>
             </div>
             {% if user.is_authenticated and comment.level < 2 %}
