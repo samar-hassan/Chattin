@@ -12,29 +12,27 @@ $(document).ready(function() {
         user: localStorage.getItem('user'),
         avatarName: 'AA',
 
-        addMessage(avatar, name, text, level) {
-            this.$comments.prepend(`
-                <div class="mb-3 comment row level-${level}" data-level="${level}">
-                    <div class="col-1 avatar">${avatar}</div>
-                    <div class="col-10" style="max-width: 90%;">
-                        <p class="m-0 p-0 name">${name}</p>
-                        <p class="m-0 p-0 text">
-                            ${text}
-                        </p>
-                        <div class="d-flex">
-                            <div>
-                                <img class="thumbs" src="/static/images/thumbs-up.svg" alt="">
-                                <span class="likes text">0</span>
-                            </div>
-                            <div class="mx-3">
-                                <img class="thumbs" src="/static/images/thumbs-down.svg" alt="">
-                                <span class="dislikes text">0</span>
-                            </div>
-                            <span class="reply">reply</span>
+        getComment(text, level=1, name=this.user, avatar=this.avatarName) {
+            return `<div class="mb-3 comment row level-${level}" data-level="${level}">
+                <div class="col-1 avatar">${avatar}</div>
+                <div class="col-10" style="max-width: 90%;">
+                    <p class="m-0 p-0 name">${name}</p>
+                    <p class="m-0 p-0 text">
+                        ${text}
+                    </p>
+                    <div class="d-flex">
+                        <div>
+                            <img class="thumbs" src="/static/images/thumbs-up.svg" alt="">
+                            <span class="likes text">0</span>
                         </div>
+                        <div class="mx-3">
+                            <img class="thumbs" src="/static/images/thumbs-down.svg" alt="">
+                            <span class="dislikes text">0</span>
+                        </div>
+                        ${level <=1? '<span class="reply">reply</span>': ''}
                     </div>
                 </div>
-            `)
+            </div>`;
         },
 
         getAvatar(name) {
@@ -44,8 +42,12 @@ $(document).ready(function() {
         addReply (e) {
             if (e.key != 'Enter') return;
             const $input = $(e.target);
-            this.sendMessage($input);
-            $(e).remove();
+            const level =  $input.data('level');
+            const value = $input.val();
+            if (!value) return;
+            const section = $(e.target).parent().parent();
+            $(e.target).remove();
+            section.replaceWith(this.getComment(value, level));
         },
 
         addCommentSection(e) {
@@ -74,7 +76,7 @@ $(document).ready(function() {
         sendMessage($input) {
             const value = $input.val();
             if (!value) return;
-            this.addMessage(this.avatarName, this.user, value);
+            this.$comments.prepend(this.getComment(value, 0));
             $input.val('');
         },
 
