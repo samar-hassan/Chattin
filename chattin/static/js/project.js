@@ -7,12 +7,14 @@ $(document).ready(function() {
     const article = (() => ({
         $input: $('#input-0'),
         $button: $('#button-0'),
+        $edit: $('.edit'),
+        $delete: $('.delete'),
         $comments: $('#comments'),
         $reply: $('.reply'),
         user: localStorage.getItem('user'),
         avatarName: 'AA',
 
-        getComment(text, level=1, name=this.user, avatar=this.avatarName) {
+        getComment(text, level=1, likes=0, dislikes=0, name=this.user, avatar=this.avatarName) {
             return `<div class="mb-3 comment row level-${level}" data-level="${level}">
                 <div class="col-1 avatar">${avatar}</div>
                 <div class="col-10 title-row">
@@ -32,11 +34,11 @@ $(document).ready(function() {
                     <div class="d-flex">
                         <div>
                             <img class="thumbs" src="/static/images/thumbs-up.svg">
-                            <span class="likes text">0</span>
+                            <span class="likes text">${likes}</span>
                         </div>
                         <div class="mx-3">
                             <img class="thumbs" src="/static/images/thumbs-down.svg">
-                            <span class="dislikes text">0</span>
+                            <span class="dislikes text">${dislikes}</span>
                         </div>
                         ${level <=1? '<span class="reply">reply</span>': ''}
                     </div>
@@ -51,12 +53,18 @@ $(document).ready(function() {
         addReply (e) {
             if (e.key != 'Enter') return;
             const $input = $(e.target);
-            const level =  $input.data('level');
+            const level =  $input.data('level') || 0;
+            const likes =  $input.data('likes') || 0;
+            const dislikes =  $input.data('dislikes');
             const value = $input.val();
             if (!value) return;
             const section = $(e.target).parent().parent();
             $(e.target).remove();
-            section.replaceWith(this.getComment(value, level));
+            if (likes || dislikes) {
+                section.replaceWith(this.getComment(value, level, likes, dislikes));
+            } else {
+                section.replaceWith(this.getComment(value, level));
+            }
         },
 
         addCommentSection(e) {
@@ -89,6 +97,34 @@ $(document).ready(function() {
             $input.val('');
         },
 
+        editComment(e) {
+            const $comment = $(e.target).parent().parent().parent().parent().parent();
+            const level = Number($comment.data('level'));
+            const comment = Number($comment.data('comment'));
+            const inputId  = `input-edit-${comment}-${level}-${Math.ceil(Math.random() * 10000)}`;
+            const text = $comment.find('.text').first().text().trim();
+            const likes = $comment.find('.likes').text().trim();
+            const dislikes = $comment.find('.dislikes').text().trim();
+            console.log(likes, dislikes)
+            $comment.replaceWith(`<div class="mb-3 row level-${level} w-75">
+                <div class="col-1 avatar">${this.avatarName}</div>
+                <div class="col-10">
+                    <input type="text" class="form-control" data-level="${level}" data-comment="${comment}"
+                        data-likes="${likes}" data-dislikes="${dislikes}" id="${inputId}" class="input" value="${text}">
+                </div>
+            </div>`);
+            $(`#${inputId}`).on('keyup', e => this.addReply(e));
+        },
+
+        deleteComment(e) {
+            const $comment = $(e.target).parent().parent().parent().parent().parent();
+            if ($comment.data('level') == 0 || $comment.data('level') == 2) {
+                $comment.remove();
+            } else {
+                $comment.parent().remove();
+            }
+        },
+
         addEvents() {
             this.$input.on("keyup", e => {
                 if (e.key != 'Enter') return;
@@ -97,13 +133,13 @@ $(document).ready(function() {
             this.$button.on("click", e => {
                 this.sendMessage(this.$input);
             });
-            this.$reply.on("click", e => this.addCommentSection(e))
+            this.$reply.on("click", e => this.addCommentSection(e));
+            this.$edit.on("click", e => this.editComment(e));
+            this.$delete.on("click", e => this.deleteComment(e));
         },
 
         setup() {
-            if (this.user) {
-                this.avatarName = this.getAvatar(this.user);
-            }
+            if (this.user) this.avatarName = this.getAvatar(this.user);
         },
 
         main () {

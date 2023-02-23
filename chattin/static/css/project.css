@@ -79,3 +79,7 @@
 .dropdown-item {
   cursor: pointer;
 }
+
+input[type="text"]  {
+  font-size: 13px !important;
+}
