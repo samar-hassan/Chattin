@@ -14,6 +14,7 @@ $(document).ready(function() {
         $comments: $('#comments'),
         $reply: $('.reply'),
         user: localStorage.getItem('user'),
+        page_id: 1,
         avatarName: 'AA',
         cookies: {},
 
@@ -69,7 +70,7 @@ $(document).ready(function() {
             this.$dislike.on("click", e => this.dislikeComment(e));
         },
 
-        addReply (e, update=False) {
+        addReply (e, update=false) {
             if (e.key != 'Enter') return;
             const $input = $(e.target);
             const level =  $input.data('level') || 0;
@@ -88,6 +89,15 @@ $(document).ready(function() {
                 this.sendRequest(
                     `articles/api/comment/${$input.data('comment')}`,
                     "PUT", {text: value})
+            } else {
+                this.sendRequest(
+                    `articles/api/comment/add`,
+                    "POST", {
+                        text: value,
+                        level: level,
+                        replied_to: $input.data('replyTo'),
+                        page_id: this.page_id,
+                    })
             }
             this.updateEvents();
         },
@@ -260,6 +270,7 @@ $(document).ready(function() {
             this.getToken();
             if (this.user) this.avatarName = this.getAvatar(this.user);
             this.accessToken =  localStorage.getItem('access_token');
+            this.page_id = window.location.pathname.split('/')[2];
         },
 
         main () {
