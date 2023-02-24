@@ -2,58 +2,73 @@
 
 Chat app using Django
 
-[![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
-[![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3100/) [![django](https://img.shields.io/badge/django-4.0-green.svg)](https://docs.djangoproject.com/en/4.0/) [![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) [![Postgres](https://img.shields.io/badge/postgres-10.x-blue.svg)](https://www.postgresql.org/download/)
+
+# Prerequisites
+
+- [Python 3.10.0](https://docs.python.org/3/)
+- [Django 4.0](https://docs.djangoproject.com/en/4.0/)
+- [Django Rest Framework 5.2](https://www.django-rest-framework.org/)
+- [Postgres 10.x](https://www.postgresql.org/docs/10/index.html)
 
 License: MIT
 
-## Settings
+## Description
 
-Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
+This chat app is developed using Django. On the frontend side, it uses jquery to manage different actions.
+No frontend framework is used.
 
-## Basic Commands
+## Setup
 
-### Setting Up Your Users
+1. Assuming you have python 3.10 installed, create a python 3.10 virtual environment
 
--   To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+    ```bash
+    virtualenv -p python venv
+    source venv/bin/activate
+    ```
 
--   To create a **superuser account**, use this command:
+2. Install python dependencies
 
-        $ python manage.py createsuperuser
+    ```bash
+    pip install -r requirements/local.txt
+    ```
 
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
+3. Install javascript dependencies
 
-### Type checks
+    ```bash
+    npm install
+    ```
 
-Running type checks with mypy:
+4. Configure static files
 
-    $ mypy chattin
+    ```bash
+    python manage.py collectstatic
+    ```
 
-### Test coverage
+5. Configure database
 
-To run the tests, check your test coverage, and generate an HTML coverage report:
+    create a file named local_settings.py in the config folder and add following lines:
+    ```python
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': 'chattin',
+                'USER': 'postgres',
+                'PASSWORD': 'postgres',
+                'HOST': 'localhost',
+                'PORT': '5432',
+            }
+        }
+    ```
 
-    $ coverage run -m pytest
-    $ coverage html
-    $ open htmlcov/index.html
+    update the credentials based on your settings, then run:
 
-#### Running tests with pytest
+    ```bash
+    python manage.py migrate
+    ```
 
-    $ pytest
+6. Run Project
 
-### Live reloading and Sass CSS compilation
-
-Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/developing-locally.html#sass-compilation-live-reloading).
-
-## Deployment
-
-The following details how to deploy this application.
-
-### Custom Bootstrap Compilation
-
-The generated CSS is set up with automatic Bootstrap recompilation with variables of your choice.
-Bootstrap v5 is installed using npm and customised by tweaking your variables in `static/sass/custom_bootstrap_vars`.
-
-You can find a list of available variables [in the bootstrap source](https://github.com/twbs/bootstrap/blob/v5.1.3/scss/_variables.scss), or get explanations on them in the [Bootstrap docs](https://getbootstrap.com/docs/5.1/customize/sass/).
-
-Bootstrap's javascript as well as its dependencies are concatenated into a single file: `static/js/vendors.js`.
+    ```bash
+    npm run dev
+    ```
