@@ -69,7 +69,7 @@ $(document).ready(function() {
             this.$dislike.on("click", e => this.dislikeComment(e));
         },
 
-        addReply (e) {
+        addReply (e, update=False) {
             if (e.key != 'Enter') return;
             const $input = $(e.target);
             const level =  $input.data('level') || 0;
@@ -83,6 +83,11 @@ $(document).ready(function() {
                 section.replaceWith(this.getComment(value, level, likes, dislikes));
             } else {
                 section.replaceWith(this.getComment(value, level));
+            }
+            if (update) {
+                this.sendRequest(
+                    `articles/api/comment/${$input.data('comment')}`,
+                    "PUT", {text: value})
             }
             this.updateEvents();
         },
@@ -127,7 +132,6 @@ $(document).ready(function() {
             const text = $comment.find('.text').first().text().trim();
             const likes = $comment.find('.likes').text().trim();
             const dislikes = $comment.find('.dislikes').text().trim();
-            console.log(likes, dislikes)
             $comment.replaceWith(`<div class="mb-3 row level-${level} w-75">
                 <div class="col-1 avatar">${this.avatarName}</div>
                 <div class="col-10">
@@ -135,7 +139,7 @@ $(document).ready(function() {
                         data-likes="${likes}" data-dislikes="${dislikes}" id="${inputId}" class="input" value="${text}">
                 </div>
             </div>`);
-            $(`#${inputId}`).on('keyup', e => this.addReply(e));
+            $(`#${inputId}`).on('keyup', e => this.addReply(e, true));
         },
 
         deleteComment(e) {
