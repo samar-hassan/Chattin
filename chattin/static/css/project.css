@@ -44,12 +44,6 @@
   margin-left: 10px;
 }
 
-.thumbs {
-  width: 15px;
-  margin: 0 3px;
-  cursor: pointer;
-}
-
 .ellipse {
   width: 4px;
   margin: 0 3px;
@@ -82,4 +76,31 @@
 
 input[type="text"]  {
   font-size: 13px !important;
+}
+
+
+.thumbs {
+  width: 15px;
+  height: 15px;
+  margin: 0 3px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.like {
+  background: url("../images/thumbs-up.svg") no-repeat scroll 0 0 !important;
+
+}
+
+.dislike {
+  background: url("../images/thumbs-down.svg") no-repeat scroll 0 0 !important;
+}
+
+.liked .like {
+  background: url("../images/thumbs-up-blue.svg") no-repeat scroll 0 0 !important;
+
+}
+
+.disliked .dislike {
+  background: url("../images/thumbs-down-blue.svg") no-repeat scroll 0 0 !important;
 }

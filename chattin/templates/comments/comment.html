@@ -18,13 +18,13 @@
         <p class="m-0 p-0 text">
             {{ comment.text }}
         </p>
-        <div class="d-flex">
+        <div class="d-flex {% if comment.is_liked %}liked{% endif %}{% if comment.is_disliked %}disliked{% endif %}">
             <div>
-                <img class="thumbs like" src="/static/images/thumbs-up.svg">
+                <span class="thumbs like"></span>
                 <span class="likes text">{{ comment.like_count }}</span>
             </div>
             <div class="mx-3">
-                <img class="thumbs dislike" src="/static/images/thumbs-down.svg">
+                <span class="thumbs dislike"></span>
                 <span class="dislikes text">{{ comment.dislike_count }}</span>
             </div>
             {% if user.is_authenticated and comment.level < 2 %}
