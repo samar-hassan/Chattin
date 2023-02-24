@@ -6,9 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
-
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 User = get_user_model()
@@ -50,6 +49,7 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 class LoginView(TokenObtainPairView):
     """Custom login view to authenticate user."""
+
     serializer_class = TokenObtainPairSerializer
 
     def post(self, request, *args, **kwargs):
@@ -60,21 +60,24 @@ class LoginView(TokenObtainPairView):
         :param request:
         """
         try:
-            user = User.objects.get(username=request.data.get('username'))
+            user = User.objects.get(username=request.data.get("username"))
         except (User.DoesNotExist, User.MultipleObjectsReturned):
             return Response("USER_DOES_NOT_EXIST", status=status.HTTP_400_BAD_REQUEST)
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if user and user.check_password(request.data.get('password')):
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        if user and user.check_password(request.data.get("password")):
+            login(request, user, backend="django.contrib.auth.backends.ModelBackend")
             refresh = RefreshToken.for_user(user)
 
-            return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            }, status=status.HTTP_200_OK)
+            return Response(
+                {
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                },
+                status=status.HTTP_200_OK,
+            )
         return Response("USER_PASSWORD_INCORRECT", status=status.HTTP_401_UNAUTHORIZED)
 
 

@@ -33,11 +33,12 @@ class UserSignupForm(SignupForm):
     Default fields will be added automatically.
     Check UserSocialSignupForm for accounts created from social.
     """
-    name = forms.CharField(max_length=25, label='Name')
+
+    name = forms.CharField(max_length=25, label="Name")
 
     def save(self, request):
-        user = super(UserSignupForm, self).save(request)
-        user.name = self.cleaned_data['name']
+        user = super().save(request)
+        user.name = self.cleaned_data["name"]
         user.save()
         return user
 

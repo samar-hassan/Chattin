@@ -30,7 +30,9 @@ class User(AbstractUser):
         if not self.name:
             avatar = (self.email[0] + self.email[1]).upper()
         else:
-            avatar = "".join(list(map(lambda x: x[0], self.name.split(" ")))[:2]).upper()
+            avatar = "".join(
+                list(map(lambda x: x[0], self.name.split(" ")))[:2]
+            ).upper()
         if len(avatar) == 1:
-            return avatar + '_'
+            return avatar + "_"
         return avatar
