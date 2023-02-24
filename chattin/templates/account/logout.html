@@ -22,8 +22,10 @@
   document.addEventListener("DOMContentLoaded",  function() {
     document.getElementById("logout_form").addEventListener("submit",  function() {
       localStorage.removeItem('user');
+      localStorage.removeItem('username');
       localStorage.removeItem('password');
-      localStorage.removeItem('password');
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
     });
   });
   </script>

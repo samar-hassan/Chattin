@@ -15,6 +15,7 @@ $(document).ready(function() {
         $reply: $('.reply'),
         user: localStorage.getItem('user'),
         avatarName: 'AA',
+        cookies: {},
 
         getComment(text, level=1, likes=0, dislikes=0, name=this.user, avatar=this.avatarName) {
             return `<div class="mb-3 comment row level-${level}" data-level="${level}">
@@ -35,11 +36,11 @@ $(document).ready(function() {
                     </p>
                     <div class="d-flex">
                         <div>
-                            <img class="thumbs like" src="/static/images/thumbs-up.svg">
+                            <span class="thumbs like"></span>
                             <span class="likes text">${likes}</span>
                         </div>
                         <div class="mx-3">
-                            <img class="thumbs dislike" src="/static/images/thumbs-down.svg">
+                            <span class="thumbs dislike"></span>
                             <span class="dislikes text">${dislikes}</span>
                         </div>
                         ${level <=1? '<span class="reply">reply</span>': ''}
@@ -149,26 +150,32 @@ $(document).ready(function() {
         likeComment (e) {
             const $impressions = $(e.target).parent().find('.likes');
             const $section = $impressions.parent().parent();
+            const commentId = $section.parent().parent().data('comment')
             if ($section.hasClass('disliked')) return;
             if ($section.hasClass('liked')) {
                 $impressions.text(Number($impressions.text()) - 1);
                 $section.removeClass('liked');
+                this.sendRequest(`articles/api/comment/remove-like/${commentId}`, "DELETE")
             } else {
                 $impressions.text(Number($impressions.text()) + 1);
                 $section.addClass('liked');
+                this.sendRequest(`articles/api/comment/like/${commentId}`, "PUT")
             };
         },
 
         dislikeComment (e) {
             const $impressions = $(e.target).parent().find('.dislikes');
             const $section = $impressions.parent().parent();
+            const commentId = $section.parent().parent().data('comment')
             if ($section.hasClass('liked')) return;
             if ($section.hasClass('disliked')) {
                 $impressions.text(Number($impressions.text()) - 1);
                 $section.removeClass('disliked');
+                this.sendRequest(`articles/api/comment/remove-dislike/${commentId}`, "DELETE")
             } else {
                 $impressions.text(Number($impressions.text()) + 1);
                 $section.addClass('disliked');
+                this.sendRequest(`articles/api/comment/dislike/${commentId}`, "PUT")
             };
         },
 
@@ -187,8 +194,67 @@ $(document).ready(function() {
             this.$dislike.on("click", e => this.dislikeComment(e));
         },
 
+        getCookies() {
+            const cookies = document.cookie;
+            const cookieArray = cookies.split(";");
+            cookieArray.forEach(cookie => {
+                const [name, value] = cookie.trim().split("=");
+                this.cookies[name] = value;
+            });
+        },
+
+        sendRequest(url, method, data={}) {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/' + url,
+                type: method,
+                headers: {
+                    'X-CSRFToken': this.cookies['csrftoken'],
+                    'Authorization': `Bearer ${this.accessToken}`
+                },
+                data: data,
+                success: function(response) {
+                    return response
+                },
+                error: function(xhr, status, error) {
+                    return error
+                }
+            });
+        },
+
+        getToken() {
+            const accessToken  = localStorage.getItem('access_token');
+            const user  = localStorage.getItem('user');
+            const username  = localStorage.getItem('username');
+            if (!username || !user) return;
+            if (accessToken && user) return;
+            $.ajax({
+                url: 'http://127.0.0.1:8000/users/api/login',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': this.cookies['csrftoken'],
+                },
+                data: {
+                    username: localStorage.getItem('username'),
+                    password: localStorage.getItem('password'),
+                },
+                success: function(response) {
+                    localStorage.setItem('access_token', response.access);
+                    localStorage.setItem('refresh_token', response.refresh);
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('password');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Unable to get Token");
+                    if (error) console.error(error)
+                }
+            });
+        },
+
         setup() {
+            this.getCookies();
+            this.getToken();
             if (this.user) this.avatarName = this.getAvatar(this.user);
+            this.accessToken =  localStorage.getItem('access_token');
         },
 
         main () {

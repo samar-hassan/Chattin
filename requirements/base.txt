@@ -18,3 +18,4 @@ django-redis==5.2.0  # https://github.com/jazzband/django-redis
 django-webpack-loader==1.8.1  # https://github.com/django-webpack/django-webpack-loader
 djangorestframework-3.14.0  # https://github.com/encode/django-rest-framework
 djangorestframework-simplejwt-5.2.2
+django-cors-headers-3.13.0

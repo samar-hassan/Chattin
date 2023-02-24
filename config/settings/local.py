@@ -56,10 +56,15 @@ WEBPACK_LOADER["DEFAULT"]["CACHE"] = not DEBUG  # noqa F405
 # Your stuff...
 # ------------------------------------------------------------------------------
 
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 SITE_ID = 1
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+]
 
 try:
     from .local_settings import *  # noqa: F40, F401
