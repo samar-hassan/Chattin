@@ -145,6 +145,7 @@ $(document).ready(function() {
             } else {
                 $comment.parent().remove();
             }
+            this.sendRequest(`articles/api/comment/delete/${$comment.data('comment')}`, "DELETE")
         },
 
         likeComment (e) {
