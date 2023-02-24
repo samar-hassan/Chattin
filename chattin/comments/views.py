@@ -40,7 +40,18 @@ class ArticleDetail(generic.TemplateView):
                     "replies",
                     queryset=Comment.objects.filter(level=1)
                     .annotate(
-                        like_count=Count("likes"), dislike_count=Count("dislikes")
+                        like_count=Count("likes"),
+                        dislike_count=Count("dislikes"),
+                        is_liked=Exists(
+                            CommentLike.objects.filter(
+                                comment_id=OuterRef("id"), user_id=user_id
+                            )
+                        ),
+                        is_disliked=Exists(
+                            CommentDisLike.objects.filter(
+                                comment_id=OuterRef("id"), user_id=user_id
+                            )
+                        ),
                     )
                     .select_related("user")
                     .prefetch_related(
@@ -50,6 +61,16 @@ class ArticleDetail(generic.TemplateView):
                             .annotate(
                                 like_count=Count("likes"),
                                 dislike_count=Count("dislikes"),
+                                is_liked=Exists(
+                                    CommentLike.objects.filter(
+                                        comment_id=OuterRef("id"), user_id=user_id
+                                    )
+                                ),
+                                is_disliked=Exists(
+                                    CommentDisLike.objects.filter(
+                                        comment_id=OuterRef("id"), user_id=user_id
+                                    )
+                                ),
                             )
                             .select_related("user"),
                         ),
