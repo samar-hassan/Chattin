@@ -127,10 +127,17 @@ $(document).ready(function() {
             $(`#${inputId}`).on('keyup', e => this.addReply(e));
         },
 
-        sendMessage($input) {
+        sendComment($input) {
             const value = $input.val();
             if (!value) return;
             this.$comments.prepend(this.getComment(value, 0));
+            this.sendRequest(
+                `articles/api/comment/add`,
+                "POST", {
+                    text: value,
+                    level: 0,
+                    page_id: this.page_id,
+                })
             $input.val('');
         },
 
@@ -197,10 +204,10 @@ $(document).ready(function() {
         addEvents() {
             this.$input.on("keyup", e => {
                 if (e.key != 'Enter') return;
-                this.sendMessage(this.$input);
+                this.sendComment(this.$input);
             });
             this.$button.on("click", e => {
-                this.sendMessage(this.$input);
+                this.sendComment(this.$input);
             });
             this.$reply.on("click", e => this.addCommentSection(e));
             this.$edit.on("click", e => this.editComment(e));
