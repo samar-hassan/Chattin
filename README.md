@@ -47,7 +47,7 @@ No frontend framework is used.
 
 5. Configure database
 
-    create a file named local_settings.py in the config folder and add following lines:
+    create a file named local_settings.py in the config/settings folder and add following lines:
     ```python
         DATABASES = {
             'default': {
