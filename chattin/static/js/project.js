@@ -202,18 +202,20 @@ $(document).ready(function() {
         },
 
         addEvents() {
-            this.$input.on("keyup", e => {
-                if (e.key != 'Enter') return;
-                this.sendComment(this.$input);
-            });
-            this.$button.on("click", e => {
-                this.sendComment(this.$input);
-            });
-            this.$reply.on("click", e => this.addCommentSection(e));
-            this.$edit.on("click", e => this.editComment(e));
-            this.$delete.on("click", e => this.deleteComment(e));
-            this.$like.on("click", e => this.likeComment(e));
-            this.$dislike.on("click", e => this.dislikeComment(e));
+            if (this.user) {
+                this.$input.on("keyup", e => {
+                    if (e.key != 'Enter') return;
+                    this.sendComment(this.$input);
+                });
+                this.$button.on("click", e => {
+                    this.sendComment(this.$input);
+                });
+                this.$reply.on("click", e => this.addCommentSection(e));
+                this.$edit.on("click", e => this.editComment(e));
+                this.$delete.on("click", e => this.deleteComment(e));
+                this.$like.on("click", e => this.likeComment(e));
+                this.$dislike.on("click", e => this.dislikeComment(e));
+            }
         },
 
         getCookies() {
