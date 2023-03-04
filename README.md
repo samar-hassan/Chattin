@@ -1,6 +1,6 @@
 # Chattin
 
-Chat app using Django
+Chat app using Django with DRF
 
 [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3100/) [![django](https://img.shields.io/badge/django-4.0-green.svg)](https://docs.djangoproject.com/en/4.0/) [![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) [![Postgres](https://img.shields.io/badge/postgres-10.x-blue.svg)](https://www.postgresql.org/download/)
 
