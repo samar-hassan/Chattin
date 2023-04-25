@@ -16,7 +16,7 @@ License: MIT
 ## Description
 
 This chat app is developed using Django. On the frontend side, it uses jquery to manage different actions.
-No frontend framework is used.
+
 
 ## Setup
 
